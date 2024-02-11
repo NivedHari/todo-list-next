@@ -6,6 +6,7 @@ import TodoForm from "../components/Todo/TodoForm";
 function Home(props) {
  
   const addTodo = async (todoData) => {
+
     const response = await fetch("/api/new-todo", {
       method: "POST",
       body: JSON.stringify(todoData),
@@ -18,26 +19,26 @@ function Home(props) {
   };
 
   const toggleTodo = (id) => {
-    const updatedTodos = todos.map((todo) =>
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    );
+    // const updatedTodos = todos.map((todo) =>
+    //   todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    // );
 
-    const completedTodo = updatedTodos.find((todo) => todo.id === id);
+    // const completedTodo = updatedTodos.find((todo) => todo.id === id);
 
-    setTodos(updatedTodos);
+    // setTodos(updatedTodos);
 
-    if (completedTodo) {
-      const updatedCompletedTodos = [...completedTodos, completedTodo];
-      setCompletedTodos(updatedCompletedTodos);
+    // if (completedTodo) {
+    //   const updatedCompletedTodos = [...completedTodos, completedTodo];
+    //   setCompletedTodos(updatedCompletedTodos);
 
-      setTodos(updatedTodos.filter((todo) => todo.id !== id));
-    }
+    //   setTodos(updatedTodos.filter((todo) => todo.id !== id));
+    // }
   };
 
   const deleteTodo = (id) => {
-    const updatedTodos = todos.filter((todo) => todo.id !== id);
-    setTodos(updatedTodos);
-    localStorage.setItem("todos", JSON.stringify(updatedTodos));
+    // const updatedTodos = todos.filter((todo) => todo.id !== id);
+    // setTodos(updatedTodos);
+    // localStorage.setItem("todos", JSON.stringify(updatedTodos));
   };
 
   return (
