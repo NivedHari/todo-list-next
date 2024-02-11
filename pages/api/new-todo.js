@@ -1,4 +1,4 @@
-import { MongoClient,ObjectId } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 
 async function handler(req, res) {
   if (req.method === "POST") {
@@ -25,10 +25,10 @@ async function handler(req, res) {
       res.status(500).json({ message: "Error inserting meetup" });
     }
   } else if (req.method === "PUT") {
-    const id = req.body.id; 
-    const { completed } = req.body; 
+    const id = req.body.id;
+    const { completed } = req.body;
 
-    console.log(id,completed);
+    console.log(id, completed);
 
     const client = new MongoClient(
       "mongodb+srv://nived123:nived123@todos.uoqfzyb.mongodb.net/?retryWrites=true&w=majority"
@@ -40,12 +40,36 @@ async function handler(req, res) {
       const db = client.db();
       const todosCollection = db.collection("todos");
 
-
       const result = await todosCollection.updateOne(
         { _id: new ObjectId(id) },
         { $set: { completed: completed } }
       );
 
+      if (result.modifiedCount === 1) {
+        res.status(200).json({ message: "Todo updated successfully" });
+      } else {
+        res.status(404).json({ message: "Todo not found" });
+      }
+
+      await client.close();
+    } catch (error) {
+      console.error("Error updating todo:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  } else if (req.method === "DELETE") {
+    const id = req.body.id;
+
+    const client = new MongoClient(
+      "mongodb+srv://nived123:nived123@todos.uoqfzyb.mongodb.net/?retryWrites=true&w=majority"
+    );
+
+    try {
+      await client.connect();
+
+      const db = client.db();
+      const todosCollection = db.collection("todos");
+
+      const result = await todosCollection.deleteOne({ _id: new ObjectId(id) });
 
       if (result.modifiedCount === 1) {
         res.status(200).json({ message: "Todo updated successfully" });

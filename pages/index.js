@@ -1,8 +1,8 @@
 import { MongoClient } from "mongodb";
 import TodoList from "../components/Todo/TodoList";
 import TodoForm from "../components/Todo/TodoForm";
-import { useRouter } from 'next/router';
-import classes from '@/components/layout/Layout.module.css';
+import { useRouter } from "next/router";
+import classes from "@/components/layout/Layout.module.css";
 
 function Home(props) {
   const todoList = props.todos.filter((todo) => todo.completed === false);
@@ -41,15 +41,30 @@ function Home(props) {
     }
   };
 
-  const deleteTodo = (id) => {
-    const updatedTodos = todos.filter((todo) => todo.id !== id);
-    setTodos(updatedTodos);
-    localStorage.setItem("todos", JSON.stringify(updatedTodos));
+  const deleteTodo = async (id) => {
+    const todoItem = props.todos.find((todo) => todo.id === id);
+    const updatedTodo = {
+      id: todoItem.id,
+      completed: true,
+    };
+    try {
+      const response = await fetch(`/api/new-todo`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedTodo),
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error updating todo:", error);
+    }
   };
 
   const goToCompleted = () => {
-    router.push('/completed');
-  }
+    router.push("/completed");
+  };
 
   return (
     <div>
@@ -59,7 +74,9 @@ function Home(props) {
         deleteTodo={deleteTodo}
       />
       <TodoForm addTodo={addTodo} />
-      <button className={classes.completeBtn} onClick={goToCompleted}>Go to Completed Todos</button>
+      <button className={classes.completeBtn} onClick={goToCompleted}>
+        Go to Completed Todos
+      </button>
     </div>
   );
 }
