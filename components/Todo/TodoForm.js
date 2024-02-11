@@ -8,6 +8,10 @@ function TodoForm(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const enteredTodo = todoRef.current.value;
+    if (!enteredTodo.trim()) {
+        alert("Please enter a todo");
+        return;
+    }
     const todoData = {
       text: enteredTodo,
       completed: false,

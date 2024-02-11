@@ -3,3 +3,11 @@
   width: 90%;
   max-width: 40rem;
 }
+.completeBtn {
+  background-color: #0e0077;
+  color: white;
+  padding: 0.5rem 1rem ;
+  border-radius: 5px;
+  margin-left: 1rem;
+  cursor: pointer;
+}
