@@ -1,15 +1,19 @@
-import { useRef } from 'react';
-import classes from './TodoForm.module.css';
+import { useRef } from "react";
+import classes from "./TodoForm.module.css";
 
 function TodoForm(props) {
-  const todoRef = useRef();  
-  const { addTodo } = props; 
+  const todoRef = useRef();
+  const { addTodo } = props;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const enteredTodo = todoRef.current.value; 
-    addTodo(enteredTodo); 
-    todoRef.current.value = ""; 
+    const enteredTodo = todoRef.current.value;
+    const todoData = {
+      text: enteredTodo,
+      completed: false,
+    };
+    addTodo(todoData);
+    todoRef.current.value = "";
   };
 
   return (
@@ -21,7 +25,7 @@ function TodoForm(props) {
           className={classes.inp}
           ref={todoRef}
         />
-        <button type="submit">Submit</button> 
+        <button type="submit">Submit</button>
       </form>
     </div>
   );
