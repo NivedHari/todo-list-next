@@ -101,7 +101,7 @@ export async function getStaticProps() {
         id: todo._id.toString(),
       })),
     },
-    revalidate: 1,
+    revalidate: 10,
   };
 }
 
